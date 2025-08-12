@@ -8,6 +8,7 @@ const btnClear = document.querySelector(".button-clear");
 let firstInput = 0;
 let secondInput = 0;
 let currentOperator = null;
+let shouldResetDisplay = false;
 
 function add(a, b) {
     return a + b;
@@ -37,7 +38,7 @@ function operate(firstInput, secondInput, operator) {
         case "*":
             return multiply(firstInput, secondInput);
         case "/":
-            if (b === 0) return null;
+            if (secondInput === 0) return null;
             else return divide(firstInput, secondInput);
         default:
             return null;
@@ -51,6 +52,10 @@ btnNumber.forEach((button) => {
 })
 
 function displayNumber(number) {
+    if (displayCurrent.textContent === "0" || shouldResetDisplay) {
+        displayCurrent.textContent = "";
+        shouldResetDisplay = false;
+    }
     displayCurrent.textContent += number;
 }
 
@@ -70,6 +75,7 @@ function setOperation(operator) {
     currentOperator = operator;
     displayLast.textContent = `${firstInput} ${currentOperator}`;
     displayCurrent.textContent = '';
+    shouldResetDisplay = true;
 }
 
 function calculate() {
@@ -83,6 +89,7 @@ function calculate() {
     
     firstInput = result;
     currentOperator = null;
+    shouldResetDisplay = true;
 }
 
 btnClear.addEventListener("click", clear);
