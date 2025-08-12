@@ -1,3 +1,7 @@
+const display = document.querySelector(".display");
+const btnNumber = document.querySelectorAll(".button-number");
+const btnOperator = document.querySelectorAll(".button-operator");
+
 let firstInput;
 let secondInput;
 let operator;
@@ -33,3 +37,10 @@ function operate(firstInput, secondInput, operator) {
             return null;
     }
 }
+
+btnNumber.forEach((button) => {
+    button.addEventListener("click", () => {
+        display.textContent += button.textContent;
+    })
+})
+
