@@ -5,8 +5,8 @@ const btnNumber = document.querySelectorAll(".button-number");
 const btnOperator = document.querySelectorAll(".button-operator");
 const btnClear = document.querySelector(".button-clear");
 
-let firstInput = 0;
-let secondInput = 0;
+let firstInput = "";
+let secondInput = "";
 let currentOperator = null;
 let shouldResetDisplay = false;
 
@@ -53,18 +53,24 @@ btnNumber.forEach((button) => {
 
 function displayNumber(number) {
     if (displayCurrent.textContent === "0" || shouldResetDisplay) {
-        displayCurrent.textContent = "";
-        shouldResetDisplay = false;
+        resetDisplay()
     }
     displayCurrent.textContent += number;
+}
+
+function resetDisplay() {
+    displayCurrent.textContent = "";
+    shouldResetDisplay = false;
 }
 
 btnOperator.forEach((button) => {
     button.addEventListener("click", () => {
         if (button.textContent === "=") {
             calculate();
+        } else if (button.textContent === ".") {
+            appendPoint();
         } else {
-            setOperation(button.textContent);
+            setOperation(button.textContent)
         }
     })
 })
@@ -77,15 +83,22 @@ function setOperation(operator) {
     shouldResetDisplay = true;
 }
 
+function appendPoint() {
+    if (shouldResetDisplay) resetDisplay()
+    if (displayCurrent.textContent === "") {
+        displayCurrent.textContent = "0";
+    }
+    if (displayCurrent.textContent.includes(".")) return
+    displayCurrent.textContent += ".";
+}
+
 function calculate() {
     if (currentOperator === null || shouldResetDisplay) return;
 
     secondInput = displayCurrent.textContent;
-    const result = Math.round((operate(firstInput, secondInput, currentOperator) * 1000 ) / 1000);
-    displayCurrent.textContent = result;
+    displayCurrent.textContent = Math.round((operate(firstInput, secondInput, currentOperator)) * 1000) / 1000;
     displayLast.textContent = `${firstInput} ${currentOperator} ${secondInput} =`;
     
-    firstInput = result;
     currentOperator = null;
     shouldResetDisplay = true;
 }
