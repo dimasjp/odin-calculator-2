@@ -74,13 +74,11 @@ function setOperation(operator) {
     firstInput = displayCurrent.textContent;
     currentOperator = operator;
     displayLast.textContent = `${firstInput} ${currentOperator}`;
-    displayCurrent.textContent = '';
     shouldResetDisplay = true;
 }
 
 function calculate() {
-    if (currentOperator === null || firstInput === "") return;
-    if (displayCurrent.textContent === "") return;
+    if (currentOperator === null || shouldResetDisplay) return;
 
     secondInput = displayCurrent.textContent;
     const result = Math.round((operate(firstInput, secondInput, currentOperator) * 1000 ) / 1000);
