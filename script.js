@@ -7,7 +7,7 @@ const btnClear = document.querySelector(".button-clear");
 
 let firstInput = 0;
 let secondInput = 0;
-let operator = null;
+let currentOperator = null;
 
 function add(a, b) {
     return a + b;
@@ -40,8 +40,6 @@ function operate(firstInput, secondInput, operator) {
     }
 }
 
-
-
 btnNumber.forEach((button) => {
     button.addEventListener("click", () => {
         displayNumber(button.textContent);
@@ -52,15 +50,20 @@ function displayNumber(number) {
     displayCurrent.textContent += number;
 }
 
-// btnOperator.forEach((button) => {
-//     button.addEventListener("click", () => {
-//         if (button.textContent === "=") {
-//             secondInput = display.textContent;
-//             operate(firstInput, secondInput, operator);
-//         } else {
-//             firstInput = display.textContent;
-//             operator = button.textContent;
-//             display.textContent = "";
-//         }
-//     })
-// })
+btnOperator.forEach((button) => {
+    button.addEventListener("click", () => {
+        if (button.textContent === "=") {
+            
+        } else {
+            setOperation(button.textContent);
+        }
+    })
+})
+
+function setOperation(operator) {
+    firstInput = displayCurrent.textContent;
+    currentOperator = operator;
+    displayLast.text = `${firstInput} ${currentOperator}`;
+}
+
+
