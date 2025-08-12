@@ -37,7 +37,8 @@ function operate(firstInput, secondInput, operator) {
         case "*":
             return multiply(firstInput, secondInput);
         case "/":
-            return divide(firstInput, secondInput);
+            if (b === 0) return null;
+            else return divide(firstInput, secondInput);
         default:
             return null;
     }
@@ -64,15 +65,32 @@ btnOperator.forEach((button) => {
 })
 
 function setOperation(operator) {
+    if (currentOperator !== null) calculate();
     firstInput = displayCurrent.textContent;
     currentOperator = operator;
-    displayLast.text = `${firstInput} ${currentOperator}`;
+    displayLast.textContent = `${firstInput} ${currentOperator}`;
     displayCurrent.textContent = '';
 }
 
 function calculate() {
+    if (currentOperator === null || firstInput === "") return;
+    if (displayCurrent.textContent === "") return;
+
     secondInput = displayCurrent.textContent;
-    displayCurrent.textContent = operate(firstInput, secondInput, currentOperator);
+    const result = Math.round((operate(firstInput, secondInput, currentOperator) * 1000 ) / 1000);
+    displayCurrent.textContent = result;
     displayLast.textContent = `${firstInput} ${currentOperator} ${secondInput} =`;
+    
+    firstInput = result;
+    currentOperator = null;
+}
+
+btnClear.addEventListener("click", clear);
+
+function clear() {
+    displayCurrent.textContent = "0";
+    displayLast.textContent = "";
+    firstInput = 0;
+    secondInput = 0;
     currentOperator = null;
 }
